@@ -124,7 +124,7 @@ def agrupation(path):
 
 	return heigth_list,width_list,imgs
 
-# Funcion que mueve las imagenes a un directorio
+# Funcion que mueve las imagenes duplicadas a un directorio
 def deleteImages(imgs):
 	# Una vez se ha realizado la agrupacion, se comparan las imagenes por grupos
 	deletes = []
