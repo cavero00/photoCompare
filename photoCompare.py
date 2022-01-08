@@ -18,7 +18,7 @@
 #		  moverlas a una ruta con un nombre especifico.
 #		- (x) Comprobar si existe el directorio "delete" y sino 
 # 		  crearlo
-#		- ( ) Crear interfaz grafica
+#		- (x) Crear interfaz grafica
 ########################################################################
 
 import cv2
@@ -26,8 +26,6 @@ import numpy as np
 import os
 
 import PySimpleGUI as sg
-
-import time
 
 ########################################################################
 #                            CLASSES
