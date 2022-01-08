@@ -3,6 +3,13 @@
 #
 # Description: Software to detect duplicates images
 #
+# Dependencies:
+#		- OpenCV
+#		- tkinter (lo necesesita PySimpleGUI)
+#			sudo apt-get install python3-tk
+#		- PySimpleGUI
+#			pip3 install pysimplegui
+#
 #
 # Nexts steps:
 #		- (x) Leer todas las fotos de una ruta determinada.
@@ -17,6 +24,10 @@
 import cv2
 import numpy as np
 import os
+
+import PySimpleGUI as sg
+
+import time
 
 ########################################################################
 #                            CLASSES
@@ -125,7 +136,7 @@ def agrupation(path):
 	return heigth_list,width_list,imgs
 
 # Funcion que mueve las imagenes duplicadas a un directorio
-def deleteImages(imgs):
+def deleteImages(imgs,path_delete):
 	# Una vez se ha realizado la agrupacion, se comparan las imagenes por grupos
 	deletes = []
 	for i in range(0,len(imgs)):
@@ -151,27 +162,65 @@ def deleteImages(imgs):
 
 ########################################################################
 #                           MAIN CODE
-path = "/home/cavero00/Imágenes/ImagesCompare_prueba"
-path_delete = path + "/delete/"
 
-# Se comprueba que el directorio de borrado de las imagenes exista y sino se crea
-if not os.path.exists(path_delete):
-	print("\n> WARNING: The directory to delete images not exists, creating the directory\n")
-	os.mkdir(path_delete)
+# Se prepara la interfaz gráfica de inserccion de datos
+explanation = "Enter the path where the images are located. The images must be in single folder. The code will compare the images and move the duplicate images to a deletion folder. This deletion folder is named delete"
 
-# Se agrupan las imagenes por dimensiones
-heigth_list, width_list, imgs = agrupation(path)
+layout = [
+	[sg.Frame(layout=[
+		[sg.Text(explanation,size=(int(len(explanation)/4),4),justification='center')]
+		],title='Explanation',title_color='black')],
+	[sg.Text("Source for images",size=(15,1),justification='right'), sg.InputText(),sg.FolderBrowse()],
+	[sg.Submit(),sg.Cancel()]
+	]
 
-# Se mueven las imagenes
-deleteImages(imgs)
+finalLayout = [[sg.Column(layout,element_justification='c')]]
+window = sg.Window("Photo compare",finalLayout)
 
-# Se comprueba que el directorio de borrado ed imagenes no este vacio, si lo esta se borra
-if not os.listdir(path_delete):
-	print("\n> WARNING: The directory to delete images is empty, deleting the directory\n")
-	os.rmdir(path_delete)
+event, values = window.read()
 
-print("\n### Complete delete images ###")
+if event == 'Submit':
+	# Se prepara la interfaz grafica para mostrar los logs
+	print = sg.Print # Se convierten todos los print en sg.Print
 
+	logs = [
+		[sg.Text("Photo compare finish")],
+		[sg.Button('Ok')]
+		]
 
+	window = sg.Window("Info",logs)
 
+	#time.sleep(1)
+	
+	# Se genera la ruta de borrado y se procede a comprar las imagenes
+	img_path = values[0]
+	path_delete = img_path + "/delete/"
+
+	# Se comprueba que el directorio de borrado de las imagenes exista y sino se crea
+	if not os.path.exists(path_delete):
+		print("\n> WARNING: The directory to delete images not exists, creating the directory\n")
+		os.mkdir(path_delete)
+
+	# Se agrupan las imagenes por dimensiones
+	heigth_list, width_list, imgs = agrupation(img_path)
+
+	# Se mueven las imagenes
+	deleteImages(imgs,path_delete)
+
+	# Se comprueba que el directorio de borrado ed imagenes no este vacio, si lo esta se borra
+	if not os.listdir(path_delete):
+		print("\n> WARNING: The directory to delete images is empty, deleting the directory\n")
+		os.rmdir(path_delete)
+
+	print("\n### Complete delete images ###")
+	
+	while True:
+		event,values = window.read()
+		print(event,values)
+		if event in (sg.WIN_CLOSED,'Ok'):
+			window.close()
+			break
+
+if event in (sg.WIN_CLOSED,'Cancel'):
+	window.close()
 
