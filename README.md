@@ -2,16 +2,16 @@
 Es un codigo que agrupa imagenes por tamaño y las compara para detectar duplicados. Las imagenes duplicadas las mueve a un directorio llamado "delete". Las imagenes se deben encontrar en la misma ruta para poder acceder a ellas.
 
 
-## Instalacion
+# Instalacion
 Para instalar el paquete se recomiendo usar un entorno virtual de python e intalar allí las dependencias necesarias.
 Para poder instalar las dependencias hay que modificar el archivo "pyvenv.cfg" y poner "include-system-site-packages" a true
 
-# Dependencias
+## Dependencias
 - pip install opencv-python
 - pip install numpy
 - pip install PySimpleGUI
 
-# Generar ejecutable
+## Generar ejecutable
 Para generar el ejecutable hay que instalar el paquete: 
 - pip install pyinstaller
 
