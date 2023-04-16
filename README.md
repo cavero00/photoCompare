@@ -1,4 +1,4 @@
-# photoCompare
+# **photoCompare**
 Es un codigo que agrupa imagenes por tamaño y las compara para detectar duplicados. Las imagenes duplicadas las mueve a un directorio llamado "delete". Las imagenes se deben encontrar en la misma ruta para poder acceder a ellas.
 
 
