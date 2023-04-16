@@ -8,6 +8,7 @@ Para poder instalar las dependencias hay que modificar el archivo "pyvenv.cfg" y
 - pip install numpy
 - pip install PySimpleGUI
 
+# Generar ejecutable
 Para generar el ejecutable hay que instalar el paquete: 
 - pip install pyinstaller
 
